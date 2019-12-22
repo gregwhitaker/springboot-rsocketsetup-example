@@ -1,5 +1,7 @@
 package example.client.hello;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import example.client.hello.model.HelloRequest;
 import example.client.hello.model.Setup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import static picocli.CommandLine.Parameters;
 import static picocli.CommandLine.populateCommand;
@@ -45,6 +48,20 @@ public class HelloClientApplication {
             RSocketRequester rSocketRequester = connectToHelloService(params);
 
             LOG.info("Requesting '{}' hello message(s)...", params.names.size());
+
+            CountDownLatch latch = new CountDownLatch(params.names.size());
+
+            rSocketRequester.route("hello")
+                    .data(new HelloRequest(params.names))
+                    .retrieveFlux(String.class)
+                    .subscribe(helloMessage -> {
+                        LOG.info("Response: {}", helloMessage);
+                        latch.countDown();
+                    });
+
+            latch.await();
+
+            LOG.info("Completed!");
         }
 
         private RSocketRequester connectToHelloService(ClientArguments params) {

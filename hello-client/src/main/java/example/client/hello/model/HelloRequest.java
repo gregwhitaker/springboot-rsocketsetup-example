@@ -9,6 +9,14 @@ public class HelloRequest {
 
     private List<String> names;
 
+    public HelloRequest() {
+        // Noop
+    }
+
+    public HelloRequest(List<String> names) {
+        this.names = names;
+    }
+
     public List<String> getNames() {
         return names;
     }
