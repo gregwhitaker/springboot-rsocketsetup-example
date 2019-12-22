@@ -12,7 +12,11 @@ Run the following command to build the example:
 ## Running the Example
 Follow the steps below to run the example:
 
-1. TBD
+1. Run the following command to start the `hello-service`:
+
+        ./gradlew :hello-service:bootRun
+        
+2. TBD
 
 ## Bugs and Feedback
 For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/springboot-rsocketsetup-example/issues).
