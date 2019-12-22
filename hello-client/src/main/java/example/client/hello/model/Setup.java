@@ -8,6 +8,15 @@ public class Setup {
     private String language;
     private String country;
 
+    public Setup() {
+        // Noop
+    }
+
+    public Setup(String language, String country) {
+        this.language = language;
+        this.country = country;
+    }
+
     public String getLanguage() {
         return language;
     }

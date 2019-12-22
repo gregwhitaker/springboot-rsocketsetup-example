@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.codec.cbor.Jackson2CborEncoder;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
@@ -40,24 +42,24 @@ public class HelloClientApplication {
         public void run(String... args) throws Exception {
             ClientArguments params = populateCommand(new ClientArguments(), args);
 
-            LOG.info("Connecting to hello-service and configuring locale [language: '{}', country: '{}']", params.language, params.country);
-
-            RSocketRequester rSocketRequester = RSocketRequester.builder()
-                    .setupRoute("hello.setup")
-                    .setupData(setupPayload(params))
-                    .dataMimeType(MimeTypeUtils.TEXT_PLAIN)
-                    .connectTcp(helloServiceHostname, helloServicePort)
-                    .block();
+            RSocketRequester rSocketRequester = connectToHelloService(params);
 
             LOG.info("Requesting '{}' hello message(s)...", params.names.size());
         }
 
-        private Setup setupPayload(ClientArguments params) {
-            Setup setup = new Setup();
-            setup.setLanguage(params.language);
-            setup.setCountry(params.country);
+        private RSocketRequester connectToHelloService(ClientArguments params) {
+            LOG.info("Connecting to hello-service and configuring locale [language: '{}', country: '{}']", params.language, params.country);
 
-            return setup;
+            return RSocketRequester.builder()
+                    .setupRoute("hello.setup")
+                    .setupData(new Setup(params.language, params.country))
+                    .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
+                    .rsocketStrategies(builder -> {
+                        builder.encoder(new Jackson2JsonEncoder());
+                        builder.encoder(new Jackson2CborEncoder());
+                    })
+                    .connectTcp(helloServiceHostname, helloServicePort)
+                    .block();
         }
     }
 
