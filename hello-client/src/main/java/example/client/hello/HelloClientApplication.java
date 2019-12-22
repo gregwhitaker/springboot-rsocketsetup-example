@@ -26,7 +26,7 @@ public class HelloClientApplication {
     private static final Logger LOG = LoggerFactory.getLogger(HelloClientApplication.class);
 
     public static void main(String... args) {
-        SpringApplication.run(HelloClientApplication.class);
+        SpringApplication.run(HelloClientApplication.class, args);
     }
 
     /**
@@ -54,14 +54,13 @@ public class HelloClientApplication {
             rSocketRequester.route("hello")
                     .data(new HelloRequest(params.names))
                     .retrieveFlux(String.class)
+                    .doOnComplete(() -> LOG.info("Completed!"))
                     .subscribe(helloMessage -> {
                         LOG.info("Response: {}", helloMessage);
                         latch.countDown();
                     });
 
             latch.await();
-
-            LOG.info("Completed!");
         }
 
         private RSocketRequester connectToHelloService(ClientArguments params) {

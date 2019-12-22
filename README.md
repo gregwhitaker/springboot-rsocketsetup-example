@@ -16,7 +16,9 @@ Follow the steps below to run the example:
 
         ./gradlew :hello-service:bootRun
         
-2. TBD
+2. In a new terminal, run the following command to execute the `hello-client`:
+
+./gradlew :hello-client:bootRun --args="en US Bob Susan Mary Tom"
 
 ## Bugs and Feedback
 For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/springboot-rsocketsetup-example/issues).

@@ -31,12 +31,12 @@ public class HelloController {
         return helloService.isSupportedLocale(new Locale(setup.getLanguage(), setup.getCountry()))
                 .map(isSupported -> {
                     if (isSupported) {
-                        LOG.info("Configuring service for locale: {}", locale.toString());
+                        LOG.info("Configuring service for locale [language: '{}', country: '{}']", setup.getLanguage(), setup.getCountry());
                         this.locale = new Locale(setup.getLanguage(), setup.getCountry());
                         return Mono.empty();
                     } else {
-                        LOG.error("Unsupported locale [local: '{}']", locale.toString());
-                        return Mono.error(new RuntimeException(String.format("Unsupported locale [locale: '%s']", locale.toString())));
+                        LOG.error("Unsupported locale [language: '{}', country: '{}']", setup.getLanguage(), setup.getCountry());
+                        return Mono.error(new RuntimeException(String.format("Unsupported locale [language: '%s', country: '%s']", setup.getLanguage(), setup.getCountry())));
                     }
                 })
                 .then();
@@ -45,7 +45,7 @@ public class HelloController {
     @MessageMapping("hello")
     public Flux<String> hello(HelloRequest request) {
         return Flux.fromIterable(request.getNames())
-                .zipWith(helloService.findMessageFormat(locale))
-                .map(objects -> String.format(objects.getT2(), objects.getT1()));
+                .flatMap(name -> helloService.findMessageFormat(locale)
+                        .map(fmt -> String.format(fmt, name)));
     }
 }
