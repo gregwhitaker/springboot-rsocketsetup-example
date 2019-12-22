@@ -1,5 +1,8 @@
 package example.service.hello.controller.model;
 
+/**
+ * Setup payload sent to the connection setup method.
+ */
 public class Setup {
 
     private String language;
