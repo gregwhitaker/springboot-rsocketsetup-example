@@ -44,6 +44,8 @@ public class HelloController {
 
     @MessageMapping("hello")
     public Flux<String> hello(HelloRequest request) {
-        return null;
+        return Flux.fromIterable(request.getNames())
+                .zipWith(helloService.findMessageFormat(locale))
+                .map(objects -> String.format(objects.getT2(), objects.getT1()));
     }
 }
