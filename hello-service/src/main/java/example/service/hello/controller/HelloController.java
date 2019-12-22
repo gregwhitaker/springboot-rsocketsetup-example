@@ -24,18 +24,19 @@ public class HelloController {
     @Autowired
     private HelloService helloService;
 
-    private Locale locale;
+    private Locale locale;  // value is assigned during SETUP frame
 
     @ConnectMapping
     public Mono<Void> setup(Setup setup) {
         return helloService.isSupportedLocale(new Locale(setup.getLanguage(), setup.getCountry()))
                 .map(isSupported -> {
                     if (isSupported) {
+                        LOG.info("Configuring service for locale: {}", locale.toString());
                         this.locale = new Locale(setup.getLanguage(), setup.getCountry());
                         return Mono.empty();
                     } else {
-                        LOG.error("Unsupported locale [language: '{}', country: '{}']", setup.getLanguage(), setup.getCountry());
-                        return Mono.error(new RuntimeException("Unsupported locale"));
+                        LOG.error("Unsupported locale [local: '{}']", locale.toString());
+                        return Mono.error(new RuntimeException(String.format("Unsupported locale [locale: '%s']", locale.toString())));
                     }
                 })
                 .then();
