@@ -34,6 +34,7 @@ public class HelloController {
                         this.locale = new Locale(setup.getLanguage(), setup.getCountry());
                         return Mono.empty();
                     } else {
+                        LOG.error("Unsupported locale [language: '{}', country: '{}']", setup.getLanguage(), setup.getCountry());
                         return Mono.error(new RuntimeException("Unsupported locale"));
                     }
                 })
