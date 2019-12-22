@@ -26,7 +26,7 @@ public class HelloController {
 
     private Locale locale;  // value is assigned during SETUP frame
 
-    @ConnectMapping
+    @ConnectMapping("hello.setup")
     public Mono<Void> setup(Setup setup) {
         return helloService.isSupportedLocale(new Locale(setup.getLanguage(), setup.getCountry()))
                 .map(isSupported -> {
