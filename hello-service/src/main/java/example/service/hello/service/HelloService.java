@@ -35,7 +35,7 @@ public class HelloService {
                     if (isSupported) {
                         return messages.get(locale);
                     } else {
-                        throw new RuntimeException("Unsupported locale");
+                        throw new RuntimeException(String.format("Unsupported locale [locale: '%s']", locale.toString()));
                     }
                 });
     }
