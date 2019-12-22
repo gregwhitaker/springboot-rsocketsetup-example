@@ -1,7 +1,5 @@
 package example.service.hello.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -12,7 +10,6 @@ import java.util.Map;
 
 @Component
 public class HelloService {
-    private static final Logger LOG = LoggerFactory.getLogger(HelloService.class);
 
     private final Map<Locale, String> messages = new HashMap<>();
 
