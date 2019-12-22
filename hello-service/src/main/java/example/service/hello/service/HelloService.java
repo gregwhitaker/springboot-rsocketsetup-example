@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Service for getting message formats.
+ */
 @Component
 public class HelloService {
 
@@ -20,7 +23,13 @@ public class HelloService {
         messages.put(new Locale("es","MX"), "Hola, %s!");
     }
 
-    public Mono<String> findMessage(Locale locale) {
+    /**
+     * Gets a message format based on locale.
+     *
+     * @param locale locale for message format
+     * @return message format
+     */
+    public Mono<String> findMessageFormat(Locale locale) {
         return isSupportedLocale(locale)
                 .map(isSupported -> {
                     if (isSupported) {
@@ -31,11 +40,22 @@ public class HelloService {
                 });
     }
 
+    /**
+     * Checks to see if the supplied {@link Locale} is supported by this service.
+     *
+     * @param locale locale to check
+     * @return <code>true</code> if the locale is supported; otherwise <code>false</code>
+     */
     public Mono<Boolean> isSupportedLocale(Locale locale) {
         return Mono.just(messages.containsKey(locale));
     }
 
-    public Flux<Map.Entry<Locale, String>> getSupportedLocales() {
+    /**
+     * Returns a stream of the supported locales and their message formats.
+     *
+     * @return a {@link Flux} of supported locales and message formats
+     */
+    public Flux<Map.Entry<Locale, String>> getSupportedMessageFormats() {
         return Flux.from(s -> messages.entrySet().forEach(s::onNext));
     }
 }
