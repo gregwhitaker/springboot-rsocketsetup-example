@@ -4,6 +4,9 @@ An example of sending a `SETUP` payload with [RSocket](http://rsocket.io) and Sp
 RSocket allows for data to be sent on connection setup. This is handy for one-time connection configuration tasks your 
 application may need.
 
+This example consists of an RSocket service, `hello-service`, that returns hello messages in the specified language for 
+one-to-many recipients. The language is specified at connection setup time using the RSocket `SETUP` frame.
+
 ## Building the Example
 Run the following command to build the example:
 
