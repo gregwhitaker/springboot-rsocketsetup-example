@@ -16,9 +16,33 @@ Follow the steps below to run the example:
 
         ./gradlew :hello-service:bootRun
         
-2. In a new terminal, run the following command to execute the `hello-client`:
+2. In a new terminal, run the following command to execute the `hello-client` and ask for hello messages for `Bob`, `Susan`, `Mary`, and `Tom` in United States English:
 
-./gradlew :hello-client:bootRun --args="en US Bob Susan Mary Tom"
+        ./gradlew :hello-client:bootRun --args="en US Bob Susan Mary Tom"
+        
+    If successful, you will see the following in the terminal:
+    
+        : Connecting to hello-service and configuring locale [language: 'en', country: 'US']
+        : Requesting '4' hello message(s)...
+        : Response: Hello, Bob!
+        : Response: Hello, Susan!
+        : Response: Hello, Mary!
+        : Response: Hello, Tom!
+        : Completed!
+        
+3. Next, run the following command to execute the `hello-client` for French messages:
+
+        ./gradlew :hello-client:bootRun --args="fr FR Bob Susan Mary Tom"
+        
+    If successful, you will see the following in the terminal:
+    
+        : Connecting to hello-service and configuring locale [language: 'fr', country: 'FR']
+        : Requesting '4' hello message(s)...
+        : Response: Bonjour, Bob!
+        : Response: Bonjour, Susan!
+        : Response: Bonjour, Mary!
+        : Response: Bonjour, Tom!
+        : Completed!
 
 ## Bugs and Feedback
 For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/springboot-rsocketsetup-example/issues).
