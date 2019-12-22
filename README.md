@@ -1,4 +1,4 @@
-# springboot-rsocketmetadatasetup-example
+# springboot-rsocketsetup-example
 An example of sending a `SETUP` payload with [RSocket](http://rsocket.io) and Spring Boot.
 
 RSocket allows for data to be sent on connection setup. This is handy for one-time connection configuration tasks your 
@@ -15,7 +15,7 @@ Follow the steps below to run the example:
 1. TBD
 
 ## Bugs and Feedback
-For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/springboot-rsocketmetadatasetup-example/issues).
+For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/springboot-rsocketsetup-example/issues).
 
 ## License
 MIT License
